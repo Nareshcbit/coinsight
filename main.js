@@ -70,9 +70,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
   agGrid
     .simpleHttpRequest({
-      url: 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=false&price_change_percentage=24h%2C2d%2C3d%2C4d%2C5d%2C6d%2C7d%2C14d%2C30d%2C200d%2C1y',
+      url: 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=5000&page=1&sparkline=false&price_change_percentage=24h%2C2d%2C3d%2C4d%2C5d%2C6d%2C7d%2C14d%2C30d%2C200d%2C1y',
     })
     .then(function (data) {
-      gridOptions.api.setRowData(data);
+      gridOptions.api.setRowData([]);
     });
+
+
 });
