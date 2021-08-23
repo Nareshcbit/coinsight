@@ -57,7 +57,7 @@
                         children: [
                             // using medal column type
                             { headerName: 'Price', field: 'current_price', valueFormatter: percentageFormatter , type: 'priceColumn'},
-                            { headerName: 'MCap', field: 'market_cap', valueFormatter: percentageFormatter , type: 'priceColumn' },
+                            { headerName: 'MCap', field: 'market_cap', width: 160, valueFormatter: params => currencyFormatter(params.value, '$') , type: 'numericColumn', columnGroupShow: 'open' },
                             { headerName: 'Price', field: 'current_price', valueFormatter: percentageFormatter , type: 'priceColumn', columnGroupShow: 'closed'},
                         ],
                     },
@@ -92,7 +92,7 @@
                 columnTypes: {
                     rankColumn: { width: 100, filter: 'agNumberColumnFilter', sortable: true },
                     priceColumn: { width: 130, columnGroupShow: 'open', filter: 'agNumberColumnFilter', sortable: true },
-                    numberColumn: { width: 130, filter: 'agNumberColumnFilter' },
+                    numberColumn: { width: 130, filter: 'agNumberColumnFilter', sortable: true },
                     coinColumn: { width: 100, columnGroupShow: 'open', filter: 'agTextColumnFilter' },
                     nonEditableColumn: { editable: false },
                 },
@@ -229,6 +229,11 @@
             function percentageFormatter(params) {
                 num = params.value
                 return Math.round( num * 100 + Number.EPSILON ) / 100
+            }
+            function currencyFormatter(currency, sign) {
+                var sansDec = currency.toFixed(0);
+                var formatted = sansDec.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                return sign + `${formatted}`;
             }
         </script>
 	</head>
