@@ -24,7 +24,7 @@ form.example input[type=text] {
   font-size: 17px;
   border: 1px solid grey;
   float: left;
-  width: 80%;
+  width: 40%;
   background: #f1f1f1;
 }
 
@@ -50,13 +50,14 @@ form.example::after {
   display: table;
 }
 #mcapDiv{
-  height: 50%;
-  width: 50%;
+  height: 90%;
+  width: 90%;
 }
 </style>
 <script>
   function searchCoin(){
-    console.log("ticker: " + $("#searchtext").val())
+    console.log("ticker: " + $("#coin").val())
+    console.log("days:" + $("#days").val())
     $.ajax({
       url: "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=usd&from=1621911905&to=1629860706",
       success: function(result){
@@ -69,8 +70,9 @@ form.example::after {
     $(document).on('click', '#searchbutton', function(e) { // all reply buttons
 		  e.preventDefault();
 		  //searchCoin()
-      let coinid = $("#searchtext").val()
-      chartMarketCap(coinid, 30)
+      let coin = $("#coin").val()
+      let days = $("#days").val()
+      chartMarketCap(coin, days)
 	  });
   })
   
@@ -80,13 +82,14 @@ form.example::after {
 <div>
   <p>Coinsight:</p>
   <form class="example" style="margin:auto;max-width:600px">
-    <input type="text" placeholder="Search.." name="search2" id="searchtext">
+    <input type="text" placeholder="Coin e.g. bitcoin" name="coin" id="coin">
+    <input type="text" placeholder="Days 30" name="days" id="days">
     <button type="submit" id="searchbutton"><i class="fa fa-search"></i></button>
   </form>
 </div>
 
 <div id="mcapDiv">
-  <canvas id="mcapChart" width="100" height="100"></canvas>
+  <canvas id="mcapChart"></canvas>
 </div>
 <script src="./marketcap.js"></script>
 </body>

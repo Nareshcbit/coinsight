@@ -24,33 +24,39 @@ function chartMarketCap(coinid, days){
     });
 
     console.log(JSON.stringify(market_caps))
+    //$('#mcapCanvas').remove(); 
+    $('#mcapDiv').find('canvas').each(function() {
+      $(this).remove()
+    });
 
-    var canvas = document.getElementById('mcapChart');
-    canvas.width  = 800;
-    canvas.height = 600;
-    var ctx = canvas.getContext('2d');
-    ctx.clearRect( 0, 0, ctx.canvas.width, ctx.canvas.height);
-    var myChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: dates,
-        datasets: [{
-          label: 'Market Cap',
+    $('#mcapDiv').append('<canvas id="mcapCanvas"><canvas>');
+    var canvas = document.getElementById('mcapCanvas');
+ 
+    var data = {
+      labels: dates,
+      datasets: [
+        {
+          label: coinid,
           data: mcaps,
-          fill: false,
-        }]
-      },
-    })
-
-
-
-
+          fill:false,
+        }
+      ]
+    }
+    var option = {
+      showLines: true
+    };
+    var myLineChart = Chart.Line(canvas,{
+      data:data,
+      options:option
+    });
+  
   })
 }
 
   
 function marketCap(coinid, days){
-  console.log("ticker: " + $("#searchtext").val())
+  console.log("coinid: " + coinid)
+  console.log("days: " + days)
   let url =  "https://api.coingecko.com/api/v3/coins/" + coinid + "/market_chart?vs_currency=usd&days=" + days + "&interval=daily"
   console.log("url: " + url)
   return  $.ajax({
