@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body {
+  font-family: Arial;
+}
+
+
+
+* {
+  box-sizing: border-box;
+}
+
+form.example input[type=text] {
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: left;
+  width: 80%;
+  background: #f1f1f1;
+}
+
+form.example button {
+  float: left;
+  width: 20%;
+  padding: 10px;
+  background: #2196F3;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none;
+  cursor: pointer;
+}
+
+form.example button:hover {
+  background: #0b7dda;
+}
+
+form.example::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+#mcapDiv{
+  height: 50%;
+  width: 50%;
+}
+</style>
+<script>
+  function searchCoin(){
+    console.log("ticker: " + $("#searchtext").val())
+    $.ajax({
+      url: "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=usd&from=1621911905&to=1629860706",
+      success: function(result){
+        console.log("result:" + JSON.stringify(result))
+      }
+    })
+  }
+
+  $( document ).ready(function() {
+    $(document).on('click', '#searchbutton', function(e) { // all reply buttons
+		  e.preventDefault();
+		  //searchCoin()
+      let coinid = $("#searchtext").val()
+      chartMarketCap(coinid, 30)
+	  });
+  })
+  
+</script>
+</head>
+<body>
+<div>
+  <p>Coinsight:</p>
+  <form class="example" style="margin:auto;max-width:600px">
+    <input type="text" placeholder="Search.." name="search2" id="searchtext">
+    <button type="submit" id="searchbutton"><i class="fa fa-search"></i></button>
+  </form>
+</div>
+
+<div id="mcapDiv">
+  <canvas id="mcapChart" width="100" height="100"></canvas>
+</div>
+<script src="./marketcap.js"></script>
+</body>
+</html> 
