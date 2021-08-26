@@ -1,5 +1,13 @@
 var MARKET_CHARTS = {}
-
+var LINE_COLORS = [
+  'rgb(255, 99, 132)',
+  'rgb(255, 159, 64)', 
+  'rgb(75, 192, 192)', 
+  'rgb(255, 205, 86)',
+  'rgb(54, 162, 235)',
+  'rgb(153, 102, 255)',
+  'rgb(201, 203, 207)'
+]
 function chartMarketCap(coinids, days){
   let deferreds = []
   coinids.forEach((coinid)=>{
@@ -12,9 +20,12 @@ function chartMarketCap(coinids, days){
     console.log(JSON.stringify(MARKET_CHARTS))
     
     let datasets = []
+    let i = 0;
     coinids.forEach((coinid)=>{
       let dataset = getDataset(coinid, MARKET_CHARTS[coinid]["market_caps"])
+      dataset['borderColor'] = LINE_COLORS[i]
       datasets.push(dataset)
+      i++
     })
 
     let coin = coinids[0]
