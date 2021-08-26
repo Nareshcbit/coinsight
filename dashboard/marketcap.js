@@ -1,47 +1,37 @@
-function chartMarketCap(coinid, days){
-  $.when(
-    marketCap(coinid, days)
-  ).done(function(result) {
+var MARKET_CHARTS = {}
+
+function chartMarketCap(coinids, days){
+  let deferreds = []
+  coinids.forEach((coinid)=>{
     console.log("coinid: " + coinid)
-    console.log("result: " + JSON.stringify(result))
-    let prices = {}
-    let market_caps = {}
-    result["prices"].forEach( (element ) => {
-      dt = formattedDate(element[0])
-      prices[dt] = element[1]
-    });
+    deferreds.push(marketCap(coinid, days))
+  })
+
+  $.when.apply(null, deferreds).done(function() {
+    console.log("all coins done")
+    console.log(JSON.stringify(MARKET_CHARTS))
     
-    
-    let dates = []
-    let mcaps = []
-    result["market_caps"].forEach( (element ) => {
-      dt = formattedDate(element[0])
-      dates.push(dt)
+    let datasets = []
+    coinids.forEach((coinid)=>{
+      let dataset = getDataset(coinid, MARKET_CHARTS[coinid]["market_caps"])
+      datasets.push(dataset)
+    })
 
-      market_caps[dt] = element[1]
-      mcaps.push(element[1])
+    let coin = coinids[0]
+    let labels = getLabels(MARKET_CHARTS[coin]["market_caps"])
 
-    });
-
-    console.log(JSON.stringify(market_caps))
-    //$('#mcapCanvas').remove(); 
+    //Reinitialize mapCanvas
     $('#mcapDiv').find('canvas').each(function() {
       $(this).remove()
     });
-
     $('#mcapDiv').append('<canvas id="mcapCanvas"><canvas>');
     var canvas = document.getElementById('mcapCanvas');
  
     var data = {
-      labels: dates,
-      datasets: [
-        {
-          label: coinid,
-          data: mcaps,
-          fill:false,
-        }
-      ]
+      labels: labels,
+      datasets: datasets
     }
+
     var option = {
       showLines: true
     };
@@ -49,9 +39,9 @@ function chartMarketCap(coinid, days){
       data:data,
       options:option
     });
-  
-  })
+  });
 }
+
 
   
 function marketCap(coinid, days){
@@ -60,11 +50,39 @@ function marketCap(coinid, days){
   let url =  "https://api.coingecko.com/api/v3/coins/" + coinid + "/market_chart?vs_currency=usd&days=" + days + "&interval=daily"
   console.log("url: " + url)
   return  $.ajax({
-    url: url
+    url: url,
+    success: function(result){
+      MARKET_CHARTS[coinid] = result
+    }
   });
 }
+
+function getDataset(coinid, data){
+  let datapoints = []
+  data.forEach( (element ) => {
+    datapoints.push(element[1])
+  });
+  return {
+    label: coinid,
+    data: datapoints,
+    fill: false
+  }
+}
+
+function getLabels(data){
+  let dates = []
+  data.forEach( (element ) => {
+    dt = formattedDate(element[0])
+    dates.push(dt)
+  });
+  return dates
+}
+
+
 
 function formattedDate(timestamp) {
   var dt = new Date(timestamp);
   return dt.toLocaleDateString("en-US")
 }
+
+

@@ -70,9 +70,10 @@ form.example::after {
     $(document).on('click', '#searchbutton', function(e) { // all reply buttons
 		  e.preventDefault();
 		  //searchCoin()
-      let coin = $("#coin").val()
+      let coins = ($("#coin").val()).trim().split(',')
       let days = $("#days").val()
-      chartMarketCap(coin, days)
+      //chartMarketCap(coin, days)
+      chartMarketCap(coins, days)
 	  });
   })
   
@@ -88,9 +89,11 @@ form.example::after {
   </form>
 </div>
 
+
 <div id="mcapDiv">
-  <canvas id="mcapChart"></canvas>
+  <canvas id="mcapCanvas"></canvas>
 </div>
+
 <script src="./marketcap.js"></script>
 </body>
 </html> 
