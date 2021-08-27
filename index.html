@@ -6,6 +6,8 @@
 		<title>Coinsight</title>
 		<meta charSet="UTF-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="stylesheet" href="https://unpkg.com/ag-grid-community/dist/styles/ag-grid.css">
+    <link rel="stylesheet" href="https://unpkg.com/ag-grid-community/dist/styles/ag-theme-alpine.css">
 		<style media="only screen">
             html, body {
                 height: 100%;
@@ -117,6 +119,7 @@
                         r13[0],r14[0],r15[0],r16[0],
                         r17[0],r18[0],r19[0],r20[0]
                     )
+                    console.log(r1[0][0])
                     var gridDiv = document.querySelector('#myGrid');
                     new agGrid.Grid(gridDiv, gridOptions);
                     gridOptions.api.setRowData(data);
@@ -239,10 +242,11 @@
 	</head>
 	<body>
 		<div style="height: 100%; box-sizing: border-box;">
-      <h1>Coin Table</h1>
+            <h1>Coin Table</h1>
 			<div id="myGrid" style="height: 90%;" class="ag-theme-alpine">
 			</div>
 		</div>
+        
 		<script>var __basePath = './';</script>
 		
 		</script>

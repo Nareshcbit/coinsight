@@ -3,7 +3,8 @@
 <head>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
-
+  <script src="https://unpkg.com/@ag-grid-community/all-modules@26.0.0/dist/ag-grid-community.min.js"></script>
+  
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
@@ -72,9 +73,15 @@ form.example::after {
 		  //searchCoin()
       let coins = ($("#coin").val()).trim().split(',')
       let days = $("#days").val()
-      //chartMarketCap(coin, days)
+      console.log("coins: " + coins)
       chartMarketCap(coins, days)
+      tableCoinData(coins, days)
+      //showCoinData(coins,days)
+      
 	  });
+    
+
+    
   })
   
 </script>
@@ -91,9 +98,15 @@ form.example::after {
 
 
 <div id="mcapDiv">
-  <canvas id="mcapCanvas"></canvas>
 </div>
-
+<div style="height: 100%; box-sizing: border-box;">
+  <h1>Coin Table</h1>
+  <div id="coindataDiv">
+  </div>
+</div>
+<script>var __basePath = './';</script>
+<script src="./coindata.js"></script>
 <script src="./marketcap.js"></script>
+<script src="../utils/base.js"></script>
 </body>
 </html> 
