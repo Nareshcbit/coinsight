@@ -38,6 +38,21 @@ const coindataColumnDefs = [
         { headerName: '48H Avg. Comments', field: 'community_data.reddit_average_comments_48h' , columnGroupShow: 'open'},
     ],
   },
+  {
+    headerName: 'Developer',
+    children: [
+        // using medal column type
+        { headerName: 'Stars', field: 'developer_data.stars' , columnGroupShow: 'always'},
+        { headerName: 'Forks', field: 'developer_data.forks' , columnGroupShow: 'always'},
+        { headerName: 'Total Issues', field: 'developer_data.total_issues' , columnGroupShow: 'open'},
+        { headerName: 'Closed Issues', field: 'developer_data.closed_issues' , columnGroupShow: 'open'},
+        { headerName: '4W Commits', field: 'developer_data.commit_count_4_weeks' , columnGroupShow: 'open'},
+        { headerName: '4W Additions', field: 'developer_data.code_additions_deletions_4_weeks.additions' , columnGroupShow: 'open'},
+        { headerName: '4W Deletions', field: 'developer_data.code_additions_deletions_4_weeks.deletions' , columnGroupShow: 'open'},
+        { headerName: 'PR Contributors', field: 'developer_data.pull_request_contributors' , columnGroupShow: 'open'},
+        { headerName: 'PRs Merged', field: 'developer_data.pull_requests_merged' , columnGroupShow: 'open'},
+    ],
+  },
 ];
 
 function tableCoinData(coinids, days){
@@ -61,7 +76,7 @@ function tableCoinData(coinids, days){
     $('#coindataDiv').find('#coindataGrid').each(function() {
       $(this).remove()
     });
-    $('#coindataDiv').append('<div id="coindataGrid" style="height: 200px;" class="ag-theme-alpine">');
+    $('#coindataDiv').append('<div id="coindataGrid" style="height: 400px;" class="ag-theme-alpine">');
     
     let gridDiv = document.querySelector('#coindataGrid');
     new agGrid.Grid(gridDiv, coindataGridOptions);
