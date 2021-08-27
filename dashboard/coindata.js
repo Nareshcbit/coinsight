@@ -1,19 +1,41 @@
 var COIN_DATA = []
 
+const coindataDefaultColDef = {
+  width: 160,
+  editable: false,
+  filter: 'agTextColumnFilter',
+  floatingFilter: true,
+  resizable: true,
+}
 const coindataColumnDefs = [
-  { field: "id" },
-  { field: "symbol" },
-  { field: "name" },
-  {headerName: '4Weeks_Adds.',field: "developer_data.code_additions_deletions_4_weeks.additions"},
+  {
+    headerName: 'Coin',
+    groupId: 'coinGroup',
+    children: [
+        // using medal column type
+        { headerName: 'id', field: 'id' , columnGroupShow: 'always'},
+        { headerName: 'name', field: 'name' , columnGroupShow: 'open'},
+        { headerName: 'symbol', field: 'symbol' , columnGroupShow: 'open'},
+    ],
+  },
   {
     headerName: 'Score',
-    groupId: 'scoreGroup',
     children: [
         // using medal column type
         { headerName: 'coingecko', field: 'coingecko_score' , columnGroupShow: 'always'},
         { headerName: 'developer', field: 'developer_score' , columnGroupShow: 'open'},
         { headerName: 'community', field: 'community_score' , columnGroupShow: 'open'},
         { headerName: 'liquidity', field: 'liquidity_score' , columnGroupShow: 'open'},
+    ],
+  },
+  {
+    headerName: 'Reddit',
+    children: [
+        // using medal column type
+        { headerName: 'Subscribers', field: 'community_data.reddit_subscribers' , columnGroupShow: 'always'},
+        { headerName: '48H Active Users', field: 'community_data.reddit_accounts_active_48h' , columnGroupShow: 'open'},
+        { headerName: '48H Avg. Posts', field: 'community_data.reddit_average_posts_48h' , columnGroupShow: 'open'},
+        { headerName: '48H Avg. Comments', field: 'community_data.reddit_average_comments_48h' , columnGroupShow: 'open'},
     ],
   },
 ];
@@ -31,6 +53,7 @@ function tableCoinData(coinids, days){
     console.log(JSON.stringify(COIN_DATA))
     let coindataGridOptions = {
       columnDefs: coindataColumnDefs,
+      defaultColDef: coindataDefaultColDef,
       rowData: COIN_DATA
     }
 
