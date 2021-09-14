@@ -239,6 +239,10 @@
                 return sign + `${formatted}`;
             }
         </script>
+        <script src="https://widgets.coingecko.com/coingecko-coin-price-marquee-widget.js"></script>
+        <script src="https://widgets.coingecko.com/coingecko-coin-heatmap-widget.js"></script>
+        <script src="https://widgets.coingecko.com/coingecko-coin-market-ticker-list-widget.js"></script>
+
 	</head>
 	<body>
 		<div style="height: 100%; box-sizing: border-box;">
@@ -246,7 +250,12 @@
 			<div id="myGrid" style="height: 90%;" class="ag-theme-alpine">
 			</div>
 		</div>
-        
+        <div style="height: 100%; box-sizing: border-box;">
+            <coingecko-coin-price-marquee-widget  coin-ids="bitcoin,ethereum,eos,ripple,litecoin" currency="usd" background-color="#ffffff" locale="en"></coingecko-coin-price-marquee-widget>
+            <coingecko-coin-heatmap-widget  height="400" locale="en"></coingecko-coin-heatmap-widget>
+            <coingecko-coin-market-ticker-list-widget  coin-id="bitcoin" currency="usd" locale="en"></coingecko-coin-market-ticker-list-widget>
+        </div>
+
 		<script>var __basePath = './';</script>
 		
 		</script>
