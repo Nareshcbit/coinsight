@@ -1,13 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://unpkg.com/@ag-grid-community/all-modules@26.0.0/dist/ag-grid-community.min.js"></script>
-		<title>Coinsight</title>
+		<title>JavaScript example</title>
 		<meta charSet="UTF-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <link rel="stylesheet" href="https://unpkg.com/ag-grid-community/dist/styles/ag-grid.css">
-    <link rel="stylesheet" href="https://unpkg.com/ag-grid-community/dist/styles/ag-theme-alpine.css">
 		<style media="only screen">
             html, body {
                 height: 100%;
@@ -30,234 +26,19 @@
                 overflow: auto;
             }
         </style>
-        <script>
+    <script>
 
-            var gridOptions = {
-                // define grid columns
-                columnDefs: [
-                    { headerName: 'Rank', field: 'market_cap_rank', type: 'rankColumn' },
-                    {
-                        headerName: 'Coin',
-                        groupId: 'coinGroup',
-                        children: [
-                            // using medal column type
-                            { headerName: 'Name', field: 'name', type: 'coinColumn', width: 160 },
-                            { headerName: 'Id', field: 'id', type: 'coinColumn' },
-                            { headerName: 'Symbol', field: 'symbol', type: 'coinColumn' },
-                            {
-                                headerName: 'Name',
-                                field: 'name',
-                                type: 'coinColumn',
-                                columnGroupShow: 'closed',
-                                width: 160,
-                            },
-                        ],
-                    },
-                    {
-                        headerName: 'Price',
-                        groupId: 'priceGroup',
-                        children: [
-                            // using medal column type
-                            { headerName: 'Price', field: 'current_price', valueFormatter: percentageFormatter , type: 'priceColumn'},
-                            { headerName: 'MCap', field: 'market_cap', width: 160, valueFormatter: params => currencyFormatter(params.value, '$') , type: 'numericColumn', columnGroupShow: 'open' },
-                            { headerName: 'Price', field: 'current_price', valueFormatter: percentageFormatter , type: 'priceColumn', columnGroupShow: 'closed'},
-                        ],
-                    },
-                    { headerName: '24Hours', field: 'price_change_percentage_24h_in_currency', valueFormatter: percentageFormatter , type: 'priceColumn'},
-                    { headerName: '7Days', field: 'price_change_percentage_7d_in_currency' , valueFormatter: percentageFormatter, type: 'priceColumn'},
-                    { headerName: '14Days', field: 'price_change_percentage_14d_in_currency' , valueFormatter: percentageFormatter, type: 'priceColumn'},
-                    { headerName: '30Days', field: 'price_change_percentage_30d_in_currency' , valueFormatter: percentageFormatter, type: 'priceColumn'},
-                    { headerName: '200Days', field: 'price_change_percentage_200d_in_currency' , valueFormatter: percentageFormatter, type: 'priceColumn'},
-                    { headerName: '1Year', field: 'price_change_percentage_1y_in_currency' , valueFormatter: percentageFormatter, type: 'priceColumn'},
-                ],
-
-                // default ColDef, gets applied to every column
-                defaultColDef: {
-                    // set the default column width
-                    width: 100,
-                    // make every column editable
-                    editable: false,
-                    // make every column use 'text' filter by default
-                    filter: 'agTextColumnFilter',
-                    // enable floating filters by default
-                    floatingFilter: true,
-                    // make columns resizable
-                    resizable: true,
-                },
-
-                // default ColGroupDef, get applied to every column group
-                defaultColGroupDef: {
-                    marryChildren: true,
-                },
-
-                // define specific column types
-                columnTypes: {
-                    rankColumn: { width: 100, filter: 'agNumberColumnFilter', sortable: true },
-                    priceColumn: { width: 130, columnGroupShow: 'open', filter: 'agNumberColumnFilter', sortable: true },
-                    numberColumn: { width: 130, filter: 'agNumberColumnFilter', sortable: true },
-                    coinColumn: { width: 100, columnGroupShow: 'open', filter: 'agTextColumnFilter' },
-                    nonEditableColumn: { editable: false },
-                },
-                pagination: true,
-                paginationPageSize: 500,
-                rowData: null,
-            };
-            $( document ).ready(function() {
-                $.when(
-                    page1(), page2(), page3(), page4(),
-                    page5(), page6(), page7(), page8(),
-                    page9(), page10(), page11(), page12(),
-                    page13(), page14(), page15(), page16(),
-                    page17(), page18(), page19(), page20()
-                ).done(function(
-                    r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,r13,r14,r15,r16,r17,r18,r19,r20
-                ){
-                    data = [].concat(
-                        r1[0],r2[0],r3[0],r4[0],
-                        r5[0],r6[0],r7[0],r8[0],
-                        r9[0],r10[0],r11[0],r12[0],
-                        r13[0],r14[0],r15[0],r16[0],
-                        r17[0],r18[0],r19[0],r20[0]
-                    )
-                    console.log(r1[0][0])
-                    var gridDiv = document.querySelector('#myGrid');
-                    new agGrid.Grid(gridDiv, gridOptions);
-                    gridOptions.api.setRowData(data);
-                });
-            });
-
-            
-            function page1() {
-                return  $.ajax({
-                    url: 'https://api.coingecko.com/api/v3/coins/markets?page=1&per_page=250&vs_currency=usd&order=market_cap_desc&sparkline=false&price_change_percentage=24h%2C2d%2C3d%2C4d%2C5d%2C6d%2C7d%2C14d%2C30d%2C200d%2C1y'
-                });
-            }
-            function page2() {
-                return  $.ajax({
-                    url: 'https://api.coingecko.com/api/v3/coins/markets?page=2&per_page=250&vs_currency=usd&order=market_cap_desc&sparkline=false&price_change_percentage=24h%2C2d%2C3d%2C4d%2C5d%2C6d%2C7d%2C14d%2C30d%2C200d%2C1y'
-                });
-            }
-            function page3() {
-                return  $.ajax({
-                    url: 'https://api.coingecko.com/api/v3/coins/markets?page=3&per_page=250&vs_currency=usd&order=market_cap_desc&sparkline=false&price_change_percentage=24h%2C2d%2C3d%2C4d%2C5d%2C6d%2C7d%2C14d%2C30d%2C200d%2C1y'
-                });
-            }
-            function page4() {
-                return  $.ajax({
-                    url: 'https://api.coingecko.com/api/v3/coins/markets?page=4&per_page=250&vs_currency=usd&order=market_cap_desc&sparkline=false&price_change_percentage=24h%2C2d%2C3d%2C4d%2C5d%2C6d%2C7d%2C14d%2C30d%2C200d%2C1y'
-                });
-            }
-            function page5() {
-                return  $.ajax({
-                    url: 'https://api.coingecko.com/api/v3/coins/markets?page=5&per_page=250&vs_currency=usd&order=market_cap_desc&sparkline=false&price_change_percentage=24h%2C2d%2C3d%2C4d%2C5d%2C6d%2C7d%2C14d%2C30d%2C200d%2C1y'
-                });
-            }
-            function page6() {
-                return  $.ajax({
-                    url: 'https://api.coingecko.com/api/v3/coins/markets?page=6&per_page=250&vs_currency=usd&order=market_cap_desc&sparkline=false&price_change_percentage=24h%2C2d%2C3d%2C4d%2C5d%2C6d%2C7d%2C14d%2C30d%2C200d%2C1y'
-                });
-            }
-            function page7() {
-                return  $.ajax({
-                    url: 'https://api.coingecko.com/api/v3/coins/markets?page=7&per_page=250&vs_currency=usd&order=market_cap_desc&sparkline=false&price_change_percentage=24h%2C2d%2C3d%2C4d%2C5d%2C6d%2C7d%2C14d%2C30d%2C200d%2C1y'
-                });
-            }
-            function page8() {
-                return  $.ajax({
-                    url: 'https://api.coingecko.com/api/v3/coins/markets?page=8&per_page=250&vs_currency=usd&order=market_cap_desc&sparkline=false&price_change_percentage=24h%2C2d%2C3d%2C4d%2C5d%2C6d%2C7d%2C14d%2C30d%2C200d%2C1y'
-                });
-            }
-            function page9() {
-                return  $.ajax({
-                    url: 'https://api.coingecko.com/api/v3/coins/markets?page=9&per_page=250&vs_currency=usd&order=market_cap_desc&sparkline=false&price_change_percentage=24h%2C2d%2C3d%2C4d%2C5d%2C6d%2C7d%2C14d%2C30d%2C200d%2C1y'
-                });
-            }
-            function page10() {
-                return  $.ajax({
-                    url: 'https://api.coingecko.com/api/v3/coins/markets?page=10&per_page=250&vs_currency=usd&order=market_cap_desc&sparkline=false&price_change_percentage=24h%2C2d%2C3d%2C4d%2C5d%2C6d%2C7d%2C14d%2C30d%2C200d%2C1y'
-                });
-            }
-            function page11() {
-                return  $.ajax({
-                    url: 'https://api.coingecko.com/api/v3/coins/markets?page=11&per_page=250&vs_currency=usd&order=market_cap_desc&sparkline=false&price_change_percentage=24h%2C2d%2C3d%2C4d%2C5d%2C6d%2C7d%2C14d%2C30d%2C200d%2C1y'
-                });
-            }
-            function page12() {
-                return  $.ajax({
-                    url: 'https://api.coingecko.com/api/v3/coins/markets?page=12&per_page=250&vs_currency=usd&order=market_cap_desc&sparkline=false&price_change_percentage=24h%2C2d%2C3d%2C4d%2C5d%2C6d%2C7d%2C14d%2C30d%2C200d%2C1y'
-                });
-            }
-            function page13() {
-                return  $.ajax({
-                    url: 'https://api.coingecko.com/api/v3/coins/markets?page=13&per_page=250&vs_currency=usd&order=market_cap_desc&sparkline=false&price_change_percentage=24h%2C2d%2C3d%2C4d%2C5d%2C6d%2C7d%2C14d%2C30d%2C200d%2C1y'
-                });
-            }
-            function page14() {
-                return  $.ajax({
-                    url: 'https://api.coingecko.com/api/v3/coins/markets?page=14&per_page=250&vs_currency=usd&order=market_cap_desc&sparkline=false&price_change_percentage=24h%2C2d%2C3d%2C4d%2C5d%2C6d%2C7d%2C14d%2C30d%2C200d%2C1y'
-                });
-            }
-            function page15() {
-                return  $.ajax({
-                    url: 'https://api.coingecko.com/api/v3/coins/markets?page=15&per_page=250&vs_currency=usd&order=market_cap_desc&sparkline=false&price_change_percentage=24h%2C2d%2C3d%2C4d%2C5d%2C6d%2C7d%2C14d%2C30d%2C200d%2C1y'
-                });
-            }
-            function page16() {
-                return  $.ajax({
-                    url: 'https://api.coingecko.com/api/v3/coins/markets?page=16&per_page=250&vs_currency=usd&order=market_cap_desc&sparkline=false&price_change_percentage=24h%2C2d%2C3d%2C4d%2C5d%2C6d%2C7d%2C14d%2C30d%2C200d%2C1y'
-                });
-            }
-            function page17() {
-                return  $.ajax({
-                    url: 'https://api.coingecko.com/api/v3/coins/markets?page=17&per_page=250&vs_currency=usd&order=market_cap_desc&sparkline=false&price_change_percentage=24h%2C2d%2C3d%2C4d%2C5d%2C6d%2C7d%2C14d%2C30d%2C200d%2C1y'
-                });
-            }
-            function page18() {
-                return  $.ajax({
-                    url: 'https://api.coingecko.com/api/v3/coins/markets?page=18&per_page=250&vs_currency=usd&order=market_cap_desc&sparkline=false&price_change_percentage=24h%2C2d%2C3d%2C4d%2C5d%2C6d%2C7d%2C14d%2C30d%2C200d%2C1y'
-                });
-            }
-            function page19() {
-                return  $.ajax({
-                    url: 'https://api.coingecko.com/api/v3/coins/markets?page=19&per_page=250&vs_currency=usd&order=market_cap_desc&sparkline=false&price_change_percentage=24h%2C2d%2C3d%2C4d%2C5d%2C6d%2C7d%2C14d%2C30d%2C200d%2C1y'
-                });
-            }
-            function page20() {
-                return  $.ajax({
-                    url: 'https://api.coingecko.com/api/v3/coins/markets?page=20&per_page=250&vs_currency=usd&order=market_cap_desc&sparkline=false&price_change_percentage=24h%2C2d%2C3d%2C4d%2C5d%2C6d%2C7d%2C14d%2C30d%2C200d%2C1y'
-                });
-            }
-            
-
-            function percentageFormatter(params) {
-                num = params.value
-                return Math.round( num * 100 + Number.EPSILON ) / 100
-            }
-            function currencyFormatter(currency, sign) {
-                var sansDec = currency.toFixed(0);
-                var formatted = sansDec.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-                return sign + `${formatted}`;
-            }
-        </script>
-        <script src="https://widgets.coingecko.com/coingecko-coin-price-marquee-widget.js"></script>
-        <script src="https://widgets.coingecko.com/coingecko-coin-heatmap-widget.js"></script>
-        <script src="https://widgets.coingecko.com/coingecko-coin-market-ticker-list-widget.js"></script>
-
+    </script>
 	</head>
 	<body>
-		<div style="height: 100%; box-sizing: border-box;">
-            <h1>Coin Table</h1>
-			<div id="myGrid" style="height: 90%;" class="ag-theme-alpine">
-			</div>
+		<div id="myChart" style="height: 100%;">
 		</div>
-        <div style="height: 100%; box-sizing: border-box;">
-            <coingecko-coin-price-marquee-widget  coin-ids="bitcoin,ethereum,eos,ripple,litecoin" currency="usd" background-color="#ffffff" locale="en"></coingecko-coin-price-marquee-widget>
-            <coingecko-coin-heatmap-widget  height="400" locale="en"></coingecko-coin-heatmap-widget>
-            <coingecko-coin-market-ticker-list-widget  coin-id="bitcoin" currency="usd" locale="en"></coingecko-coin-market-ticker-list-widget>
-        </div>
-
 		<script>var __basePath = './';</script>
-		
+		<script src="https://unpkg.com/ag-charts-community@4.0.1/dist/ag-charts-community.min.js">
+		</script>
+		<script src="data/crypto_market.js">
+		</script>
+		<script src="main2.js">
 		</script>
 	</body>
 </html>
