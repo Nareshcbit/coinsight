@@ -62,6 +62,18 @@
                 fill: '#80a0c3',
               },
             },
+            {
+              type: 'line',
+              xKey: 'date',
+              yKey: 'total_market_cap',
+              yName: 'total_market_cap',
+              stroke: '#61C00D',
+              strokeWidth: 5,
+              marker: {
+                enabled: false,
+                fill: '#61C00D',
+              },
+            },
           ],
           axes: [
             {
@@ -88,7 +100,7 @@
               keys: ['bitcoin_dominance'],
               title: {
                 enabled: true,
-                text: 'Exports (tonnes)',
+                text: 'Bitcoin Dominance',
               },
               label: {
                 formatter: function (params) {
