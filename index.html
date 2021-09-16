@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>JavaScript example</title>
+		<title>Coinsight</title>
 		<meta charSet="UTF-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		<style media="only screen">
@@ -31,15 +31,32 @@
     <script>
       $( document ).ready(function() {
         console.log(Object.keys(MARKET_CAP[0]))
-        drawChart()
+        drawChart(-90)
+        $( ".days" ).click(function() {
+          let btnText = $(this).text()
+          if (btnText.indexOf("Days") != -1){
+            let period  = 0 - parseInt(btnText.split("D")[0])
+            console.log("period: " + period)
+            drawChart(period)
+          }else if ( btnText.indexOf("YTD") != -1 ){
+            drawChart(-365)
+          }
+        });
+        
       })
 
-      function drawChart(){
-
+      function drawChart(period){
+        console.log("drawing chart " + period)
+        //Reinitialize mapCanvas
+        $('#dominanceDiv').find('#dominanceChart').each(function() {
+          $(this).remove()
+        });
+        $('#dominanceDiv').append('<div id="dominanceChart" style="height: 100%;"></div>');
+        
         var options = {
-          container: document.querySelector('#myChart'),
+          container: document.querySelector('#dominanceChart'),
           autoSize: true,
-          data: MARKET_CAP.slice(-21),
+          data: MARKET_CAP.slice(period),
           series: [
             {
               type: 'line',
@@ -100,6 +117,11 @@
               },
             },
           ],
+          legend: {
+            position: 'bottom',
+            markerShape: 'square',
+            strokeWidth: 0,
+          },
         };
 
         var chart = agCharts.AgChart.create(options);
@@ -109,8 +131,16 @@
     </script>
 	</head>
 	<body>
-		<div id="myChart" style="height: 100%;">
-		</div>
+    <div class="btn-group" id="chartPeriod">
+      <button class="days">7Days</button>
+      <button class="days">30Days</button>
+      <button class="days">90Days</button>
+      <button class="days">YTD</button>
+    </div>
+    <div id="dominanceDiv">
+      <div id="dominanceChart" style="height: 100%;"></div>
+    </div>
+		
 		<script>var __basePath = './';</script>
 		<script src="https://unpkg.com/ag-charts-community@4.0.1/dist/ag-charts-community.min.js">
 		</script>
