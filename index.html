@@ -26,7 +26,82 @@
                 overflow: auto;
             }
         </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/@ag-grid-community/all-modules@26.0.0/dist/ag-grid-community.min.js"></script>
     <script>
+      $( document ).ready(function() {
+        console.log(Object.keys(MARKET_CAP[0]))
+        drawChart()
+      })
+
+      function drawChart(){
+
+        var options = {
+          container: document.querySelector('#myChart'),
+          autoSize: true,
+          data: MARKET_CAP,
+          series: [
+            {
+              type: 'column',
+              xKey: 'date',
+              yKeys: ['total_market_cap', 'bitcoin_market_cap'],
+              yNames: ['Total', 'Bitcoin'],
+              grouped: true,
+              fills: ['#c16068', '#a2bf8a'],
+              strokeWidth: 0,
+            },
+            {
+              type: 'line',
+              xKey: 'date',
+              yKey: 'bitcoin_dominance',
+              yName: 'Bitcoin Dominance',
+              stroke: '#80a0c3',
+              strokeWidth: 5,
+              marker: {
+                enabled: false,
+                fill: '#80a0c3',
+              },
+            },
+          ],
+          axes: [
+            {
+              type: 'category',
+              position: 'bottom',
+            },
+            {
+              type: 'number',
+              position: 'left',
+              keys: ['total_market_cap', 'bitcoin_market_cap'],
+              title: {
+                enabled: true,
+                text: 'Market Cap',
+              },
+              label: {
+                formatter: function (params) {
+                  return ( params.value / (1000 * 1000 * 1000 * 1000) )+ 'B' ;
+                },
+              },
+            },
+            {
+              type: 'number',
+              position: 'right',
+              keys: ['bitcoin_dominance'],
+              title: {
+                enabled: true,
+                text: 'Exports (tonnes)',
+              },
+              label: {
+                formatter: function (params) {
+                  return params.value ;
+                },
+              },
+            },
+          ],
+        };
+
+        var chart = agCharts.AgChart.create(options);
+      }
+
 
     </script>
 	</head>
@@ -37,8 +112,6 @@
 		<script src="https://unpkg.com/ag-charts-community@4.0.1/dist/ag-charts-community.min.js">
 		</script>
 		<script src="data/crypto_market.js">
-		</script>
-		<script src="main2.js">
 		</script>
 	</body>
 </html>
