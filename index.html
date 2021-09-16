@@ -39,17 +39,8 @@
         var options = {
           container: document.querySelector('#myChart'),
           autoSize: true,
-          data: MARKET_CAP,
+          data: MARKET_CAP.slice(-21),
           series: [
-            {
-              type: 'column',
-              xKey: 'date',
-              yKeys: ['total_market_cap', 'bitcoin_market_cap'],
-              yNames: ['Total', 'Bitcoin'],
-              grouped: true,
-              fills: ['#c16068', '#a2bf8a'],
-              strokeWidth: 0,
-            },
             {
               type: 'line',
               xKey: 'date',
@@ -66,7 +57,7 @@
               type: 'line',
               xKey: 'date',
               yKey: 'total_market_cap',
-              yName: 'total_market_cap',
+              yName: 'Total Market Cap',
               stroke: '#61C00D',
               strokeWidth: 5,
               marker: {
@@ -83,7 +74,7 @@
             {
               type: 'number',
               position: 'left',
-              keys: ['total_market_cap', 'bitcoin_market_cap'],
+              keys: ['total_market_cap'],
               title: {
                 enabled: true,
                 text: 'Market Cap',
