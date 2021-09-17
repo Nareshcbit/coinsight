@@ -42,6 +42,7 @@
             drawChart(-365)
           }
         });
+        analyzeMarket()
         
       })
 
@@ -127,7 +128,37 @@
         var chart = agCharts.AgChart.create(options);
       }
 
-
+      function analyzeMarket(){
+        let data=[
+          {"index": 2, "header": "Last 1 Day"},
+          {"index": 8, "header": "Last 7 Days"},
+          {"index": 16, "header": "Last 15 Days"},
+          {"index": 31, "header": "Last 30 Days"},
+          {"index": 61, "header": "Last 60 Days"},
+          {"index": 91, "header": "Last 90 Days"},
+        ]
+        let dps_total = MARKET_CAP.length
+        let dp_current = MARKET_CAP[dps_total-1]
+        let dp_past = MARKET_CAP[dps_total-2]
+        data.forEach(function(item, index){
+          let indx = item["index"]
+          dp_past = MARKET_CAP[dps_total-indx]
+          tmc_change = dp_current["total_market_cap"] - dp_past["total_market_cap"]
+          tmc_change_percent = (tmc_change / dp_past["total_market_cap"])*100
+          btc_dominance_change=dp_current["bitcoin_dominance"] - dp_past["bitcoin_dominance"]
+          btc_dominance_change_percent = (btc_dominance_change/dp_past["bitcoin_dominance"])*100
+          data[index]["total_market_cap_past"] = dp_past["total_market_cap"]
+          data[index]["total_market_cap_current"] = dp_current["total_market_cap"]
+          data[index]["bitcoin_dominance_past"] = dp_past["bitcoin_dominance"]
+          data[index]["bitcoin_dominance_current"] = dp_current["bitcoin_dominance"]
+          data[index]["tmc_change"] = tmc_change
+          data[index]["tmc_change_percent"] = tmc_change_percent
+          data[index]["btc_dominance_change"] = btc_dominance_change
+          data[index]["btc_dominance_change_percent"] = btc_dominance_change_percent
+          console.log("config item: " + JSON.stringify(data[index]))
+        })
+        
+      }
     </script>
 	</head>
 	<body>
@@ -140,7 +171,9 @@
     <div id="dominanceDiv">
       <div id="dominanceChart" style="height: 100%;"></div>
     </div>
-		
+		<div id="marketAnalysis">
+
+    </div>
 		<script>var __basePath = './';</script>
 		<script src="https://unpkg.com/ag-charts-community@4.0.1/dist/ag-charts-community.min.js">
 		</script>
